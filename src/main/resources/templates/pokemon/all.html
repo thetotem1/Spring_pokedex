@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title> Pokemon </title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<main>
+  <table>
+    <thead>
+    <tr>
+      <th>Pokedex Number</th>
+      <th> Name </th>
+      <th> Primary type</th>
+      <th> Secondary type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pokemon: ${pokemons}" th:object="${pokemon}">
+      <td th:text="*{pokedexId()}"></td>
+      <td th:text="*{name()}"></td>
+      <td th:text="*{primaryType()}"></td>
+      <td th:text="*{secondaryType()}"></td>
+      <td>
+        <a th:href="@{/pokemon/{id}(id=*{id})}">
+          <button>Details</button>
+        </a>
+      </td>
+<!--      <td th:text="${pokemon.secondaryType() != null ? pokemon.secondaryType() : 'None'}"></td>-->
+    </tr>
+    </tbody>
+  </table>
+</main>
+
+</body>
+</html>
