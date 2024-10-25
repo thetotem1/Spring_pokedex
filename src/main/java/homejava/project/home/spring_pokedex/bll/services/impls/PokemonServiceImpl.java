@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,5 +18,21 @@ public class PokemonServiceImpl implements PokemonService {
     @Override
     public List<Pokemon> getAllPokemons() {
         return pokemonRepository.findAll();
+    }
+
+    @Override
+    public Pokemon findById(UUID id) {
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow();
+        return pokemon;
+    }
+
+    @Override
+    public int countPokemons() {
+        return (int) pokemonRepository.count();
+    }
+
+    @Override
+    public Pokemon findByPokedexId(int pokedexId) {
+        return pokemonRepository.findByPokedexId(pokedexId);
     }
 }

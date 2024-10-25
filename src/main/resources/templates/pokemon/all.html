@@ -7,32 +7,36 @@
 </head>
 <body>
 
+<th:block th:insert="~{layout/header}"></th:block>
+
 <main>
-  <table>
-    <thead>
-    <tr>
-      <th>Pokedex Number</th>
-      <th> Name </th>
-      <th> Primary type</th>
-      <th> Secondary type</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="pokemon: ${pokemons}" th:object="${pokemon}">
-      <td th:text="*{pokedexId()}"></td>
-      <td th:text="*{name()}"></td>
-      <td th:text="*{primaryType()}"></td>
-      <td th:text="*{secondaryType()}"></td>
-      <td>
-        <a th:href="@{/pokemon/{id}(id=*{id})}">
-          <button>Details</button>
-        </a>
-      </td>
-<!--      <td th:text="${pokemon.secondaryType() != null ? pokemon.secondaryType() : 'None'}"></td>-->
-    </tr>
-    </tbody>
-  </table>
+    <table>
+        <thead>
+        <tr>
+            <th>Pokedex Number</th>
+            <th> Name</th>
+            <th> Primary type</th>
+            <th> Secondary type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pokemon: ${pokemons}" th:object="${pokemon}">
+            <td th:text="*{pokedexId()}"></td>
+            <td th:text="*{name()}"></td>
+            <td th:text="*{primaryType()}"></td>
+            <td th:text="*{secondaryType()}"></td>
+            <td>
+                <a th:href="@{/pokemon/{id}(id=*{pokedexId()})}">
+                    <button class="btn-51">Details</button>
+                </a>
+            </td>
+            <!--      <td th:text="${pokemon.secondaryType() != null ? pokemon.secondaryType() : 'None'}"></td>-->
+        </tr>
+        </tbody>
+    </table>
 </main>
+
+<th:block th:insert="~{layout/footer}"></th:block>
 
 </body>
 </html>
