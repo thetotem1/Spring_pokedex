@@ -1,78 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Declares the model version for Maven -->
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.springframework.boot</groupId> <!-- Group ID for the Spring Boot starter parent -->
+        <artifactId>spring-boot-starter-parent</artifactId> <!-- Artifact ID for the Spring Boot starter parent -->
+        <version>3.3.4</version> <!-- Version of Spring Boot -->
+        <relativePath/> <!-- Lookup parent from the repository -->
     </parent>
-    <groupId>be.storm</groupId>
-    <artifactId>Spring_Pokemon</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Spring_Pokemon</name>
-    <description>Spring_Pokemon</description>
-    <url/>
+
+    <groupId>be.storm</groupId> <!-- Group ID for your project -->
+    <artifactId>Spring_Pokemon</artifactId> <!-- Artifact ID for your project -->
+    <version>0.0.1-SNAPSHOT</version> <!-- Version of your project -->
+    <name>Spring_Pokemon</name> <!-- Project name -->
+    <description>Spring_Pokemon</description> <!-- Project description -->
+    <url/> <!-- Project URL (optional) -->
+
     <licenses>
-        <license/>
+        <license/> <!-- License information (optional) -->
     </licenses>
+
     <developers>
-        <developer/>
+        <developer/> <!-- Developer information (optional) -->
     </developers>
+
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection/> <!-- SCM connection information (optional) -->
+        <developerConnection/> <!-- SCM developer connection (optional) -->
+        <tag/> <!-- SCM tag (optional) -->
+        <url/> <!-- SCM URL (optional) -->
     </scm>
+
     <properties>
-        <java.version>17</java.version>
+        <java.version>17</java.version> <!-- Java version used in the project -->
     </properties>
+
     <dependencies>
+        <!-- Spring Boot Starter for JPA to interact with databases -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
+        <!-- Spring Boot Starter for Thymeleaf for template rendering -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
+        <!-- Spring Boot Starter for building web applications -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Spring Boot Starter for validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-
+        <!-- Hibernate Validator for bean validation -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.1.Final</version>
+            <version>8.0.1.Final</version> <!-- Specify version for Hibernate Validator -->
         </dependency>
+
+        <!-- Spring Boot DevTools for development-time features -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <scope>runtime</scope> <!-- Scope is runtime to avoid inclusion in production -->
+            <optional>true</optional> <!-- Mark as optional dependency -->
         </dependency>
+
+        <!-- PostgreSQL JDBC Driver for database connectivity -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <scope>runtime</scope> <!-- Scope is runtime since it's needed at runtime -->
         </dependency>
+
+        <!-- Project Lombok for reducing boilerplate code -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <optional>true</optional> <!-- Mark as optional dependency -->
         </dependency>
+
+        <!-- Spring Boot Starter for testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <scope>test</scope> <!-- Scope is test since it's only needed for testing -->
         </dependency>
     </dependencies>
 
@@ -80,11 +103,11 @@
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>spring-boot-maven-plugin</artifactId> <!-- Plugin for Spring Boot support in Maven -->
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.projectlombok</groupId> <!-- Exclude Lombok from the final artifact -->
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
