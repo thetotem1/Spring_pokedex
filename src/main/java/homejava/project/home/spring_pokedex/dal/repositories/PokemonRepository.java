@@ -13,4 +13,10 @@ public interface PokemonRepository extends JpaRepository<Pokemon, UUID> {
     @Query("SELECT p from Pokemon p where p.pokedexId = :pokedexId")
     Pokemon findByPokedexId(int pokedexId);
 
+    @Query("select p from Pokemon p where p.name = :name")
+    Pokemon findByName(String name);
+
+    @Query("select count(p) > 0 from Pokemon p where p.name ilike :name")
+    boolean existsByName(String name);
+
 }

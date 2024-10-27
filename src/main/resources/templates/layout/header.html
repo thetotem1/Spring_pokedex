@@ -1,4 +1,15 @@
 <header>
   <h1>Pokémon Pokédex</h1>
+  <div class="topnav">
+    <a class="active" th:href="@{/pokemon}">Home</a>
+    <a th:href="@{/pokemon/create}">Create</a>
+    <a th:href="@{/contact}">Contact</a> <!-- Updated contact link placeholder -->
+    <form method="get" th:action="@{/pokemon/search}">
+      <input type="text" placeholder="Search..." name="nameInput" aria-label="Search Pokémon by name">
+      <button type="submit" aria-label="Search Pokémon">
+        Search
+      </button>
+    </form>
+  </div>
   <p>Discover the World of Pokémon!</p>
 </header>

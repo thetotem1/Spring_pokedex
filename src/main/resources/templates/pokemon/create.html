@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Add pokemon</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+<th:block th:insert="~{layout/header}"></th:block>
+<main>
+    <h2>Create new Pokemon</h2>
+    <form method="post" th:action="@{/pokemon/create}" th:object="${pokemonForm}">
+        <div>
+            <label for="pokedexId">Pokedex ID : </label>
+            <input id="pokedexId" type="number" th:field="*{pokedexId}" required>
+        </div>
+        <div>
+            <label for="name">Name</label>
+            <input id="name" type="text" step="0.01" th:field="*{name}" required>
+        </div>
+
+        div>
+        <label for="description">Description : </label>
+        <input id="description" type="text" th:field="*{description}" required>
+        </div>
+
+        <div>
+            <label> Primary type : </label>
+<!--            <input th:each="primaryType : ${primaryTypes}"-->
+<!--                   type="select"-->
+<!--                   th:value="${primaryType}"-->
+<!--                   th:field="*{primaryType}"-->
+<!--                   th:text="${primaryType.name()}">-->
+            <select th:field="${primaryTypes}">
+                <option th:each="primaryType : ${primaryTypes}"
+                        th:value="${primaryType}"
+                        th:text="${primaryType.name()}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Secondary type : </label>
+            <input th:each="secondaryType : ${secondaryTypes}"
+                   type="radio"
+                   th:value="${secondaryType}"
+                   th:field="*{secondaryType}"
+                   th:text="${secondaryType.name()}">
+        </div>
+
+        <button>Add</button>
+    </form>
+</main>
+<th:block th:insert="~{layout/footer}"></th:block>
+</body>
+</html>

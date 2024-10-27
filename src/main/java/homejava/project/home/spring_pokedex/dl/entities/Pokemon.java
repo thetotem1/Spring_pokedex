@@ -33,4 +33,13 @@ public class Pokemon extends BaseEntity {
         this.primaryType = primaryType;
         this.secondaryType = secondaryType;
     }
+
+    public Pokemon(int pokedexId, String name, String description, PokemonType primaryType, PokemonType secondaryType) {
+        super(UUID.randomUUID());
+        this.pokedexId = pokedexId;
+        this.name = name;
+        this.description = description;
+        this.primaryType = primaryType;
+        this.secondaryType = secondaryType;
+    }
 }

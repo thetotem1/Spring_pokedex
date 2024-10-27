@@ -8,12 +8,24 @@
 <body>
 <th:block th:insert="~{layout/header}"></th:block>
 
-<a th:href="@{/pokemon/{id}(id=*{pokemon.getPrevious()} )}">
+<!-- Conditional Back Button -->
+<a th:if="${pokemon.getPrevious() != null}"
+   th:href="@{/pokemon/{id}(id=${pokemon.getPrevious()})}">
   <button class="back-button">Back</button>
 </a>
-<a th:href="@{/pokemon/{id}(id=*{pokemon.getNext()} )}">
-<button class="next-button">Next</button>
+
+<!-- Conditional Next Button -->
+<a th:if="${pokemon.getNext() != null}"
+   th:href="@{/pokemon/{id}(id=${pokemon.getNext()})}">
+  <button class="next-button">Next</button>
 </a>
+
+<!--<a th:href="@{/pokemon/{id}(id=*{pokemon.getPrevious()} )}">-->
+<!--  <button class="back-button">Back</button>-->
+<!--</a>-->
+<!--<a th:href="@{/pokemon/{id}(id=*{pokemon.getNext()} )}">-->
+<!--<button class="next-button">Next</button>-->
+<!--</a>-->
 <main>
   <div class="card" th:object="${pokemon}">
     <h2>Pokédex ID: <span th:text="*{pokemonDetailsDTO.pokedexId()}"></span></h2>

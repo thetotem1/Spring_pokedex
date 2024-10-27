@@ -12,5 +12,7 @@ public interface PokemonService{
     Pokemon findById(UUID id);
     int countPokemons();
     Pokemon findByPokedexId(int pokedexId);
+    Pokemon findByName(String name);
+    Pokemon save(Pokemon pokemon);
 
 }

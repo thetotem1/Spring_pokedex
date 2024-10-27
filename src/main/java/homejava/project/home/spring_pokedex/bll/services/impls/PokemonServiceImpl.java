@@ -35,4 +35,20 @@ public class PokemonServiceImpl implements PokemonService {
     public Pokemon findByPokedexId(int pokedexId) {
         return pokemonRepository.findByPokedexId(pokedexId);
     }
+
+    @Override
+    public Pokemon findByName(String name) {
+        return pokemonRepository.findByName(name);
+    }
+
+    @Override
+    public Pokemon save(Pokemon pokemon) {
+        if(pokemonRepository.existsByName(pokemon.getName())){
+            throw new IllegalArgumentException("Designation already exists");
+        }
+        pokemon.setId(UUID.randomUUID());
+
+        return pokemonRepository.save(pokemon);
+    }
+
 }
