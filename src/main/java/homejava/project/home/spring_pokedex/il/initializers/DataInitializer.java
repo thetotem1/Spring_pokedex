@@ -1,30 +1,39 @@
 package homejava.project.home.spring_pokedex.il.initializers;
 
-
 import homejava.project.home.spring_pokedex.dal.repositories.PokemonRepository;
 import homejava.project.home.spring_pokedex.dl.entities.Pokemon;
 import homejava.project.home.spring_pokedex.dl.enums.PokemonType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * DataInitializer is a component that initializes the database with
+ * predefined Pokémon data when the application starts.
+ * Implements CommandLineRunner to execute code after the application context is loaded.
+ */
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
-    @Autowired
-    private PokemonRepository pokemonRepository;
 
-    //    public PokemonData(PokemonRepository pokemonRepository) {
-    //        this.pokemonRepository = pokemonRepository;
-    //    }
+    // Repository for managing Pokémon entities
+    private final PokemonRepository pokemonRepository;
 
+    /**
+     * This method runs after the Spring application has started.
+     * It checks if there are any Pokémon in the repository,
+     * and if not, populates it with a predefined list of Pokémon.
+     *
+     * @param args Command line arguments (not used in this implementation).
+     */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+        // Check if there are any Pokémon in the repository
         if (pokemonRepository.count() == 0) {
+            // Create a list of Pokémon to be added to the repository
             List<Pokemon> pokemons = List.of(
                     new Pokemon(UUID.randomUUID(), 1, "Bulbasaur", "A seed Pokémon that can grow into a large plant.", PokemonType.GRASS, PokemonType.POISON),
                     new Pokemon(UUID.randomUUID(), 2, "Ivysaur", "A fully grown Bulbasaur with a blooming flower.", PokemonType.GRASS, PokemonType.POISON),
@@ -48,8 +57,14 @@ public class DataInitializer implements CommandLineRunner {
                     new Pokemon(UUID.randomUUID(), 20, "Raticate", "The evolved form of Rattata with powerful biting abilities.", PokemonType.NORMAL, null)
             );
 
-
-            this.pokemonRepository.saveAll(pokemons);
+            // Attempt to save the predefined Pokémon to the repository
+            try {
+                pokemonRepository.saveAll(pokemons);
+            } catch (Exception e) {
+                // Handle any exceptions that occur during the save operation
+                System.err.println("Failed to save Pokémon data to the repository: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

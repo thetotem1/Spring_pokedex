@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+/**
+ * Controller for handling web requests related to Pokémon.
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/pokemon")
@@ -26,16 +29,30 @@ public class PokemonController {
 
     private final PokemonService pokemonService;
 
+    /**
+     * Displays a list of all Pokémon.
+     *
+     * @param model The model to hold attributes for the view.
+     * @return The view name for displaying all Pokémon.
+     */
     @GetMapping
     public String getPokemon(Model model) {
-        List<PokemonDTO> pokemons = pokemonService.getAllPokemons().stream().map(PokemonDTO::fromPokemon).toList();
+        List<PokemonDTO> pokemons = pokemonService.getAllPokemons().stream()
+                .map(PokemonDTO::fromPokemon)
+                .toList();
         model.addAttribute("pokemons", pokemons);
         return "pokemon/all";
     }
 
+    /**
+     * Displays the details of a Pokémon identified by its Pokédex ID.
+     *
+     * @param pokedexId The Pokédex ID of the Pokémon.
+     * @param model The model to hold attributes for the view.
+     * @return The view name for displaying Pokémon details, or an error view if not found.
+     */
     @GetMapping("/{id}")
     public String getPokemonById(@PathVariable(name = "id") int pokedexId, Model model) {
-
         try {
             int count = pokemonService.countPokemons();
             PokemonDetailsDTO pokemonDetailsDTO = PokemonDetailsDTO.fromPokemon(pokemonService.findByPokedexId(pokedexId));
@@ -50,63 +67,75 @@ public class PokemonController {
         } catch (NoSuchElementException e) {
             return "error/error404";
         }
-
-//        try{
-////            PokemonDetailsDTO dto = PokemonDetailsDTO.fromPokemon(pokemonService.findById(id));
-////            model.addAttribute("pokemon", dto);
-////            return "pokemon/details";
-//        } catch (Exception e) {
-//            return "error/error404";
-//        }
     }
 
+    /**
+     * Searches for a Pokémon by name.
+     *
+     * @param nameInput The name of the Pokémon to search for.
+     * @param model The model to hold attributes for the view.
+     * @return The view name for displaying Pokémon details, or an error view if not found.
+     */
+    @GetMapping("/search")
+    public String searchPokemons(
+            @RequestParam(name = "nameInput") String nameInput,
+            Model model
+    ) {
+        try {
+            Pokemon pokemon = pokemonService.findByName(nameInput);
+            if (pokemon == null && nameInput.isEmpty()) {
+                return "error/error404";
+            }
 
-@GetMapping("/search")
-public String searchPokemons(
-        @RequestParam(name = "nameInput") String nameInput,
-        Model model
-) {
-    try {
-        Pokemon pokemon = pokemonService.findByName(nameInput);
-        if (pokemon == null && nameInput.isEmpty()) {
+            int count = pokemonService.countPokemons();
+            PokemonDetailsDTO pokemonDetailsDTO = PokemonDetailsDTO.fromPokemon(
+                    pokemonService.findByPokedexId(pokemon.getPokedexId()));
+            PokemonPaginationDTO pokemonPaginationDTO = new PokemonPaginationDTO(
+                    count,
+                    pokemonDetailsDTO.pokedexId() == 1 ? count : pokemonDetailsDTO.pokedexId() - 1,
+                    pokemonDetailsDTO.pokedexId() == count ? 1 : pokemonDetailsDTO.pokedexId() + 1,
+                    pokemonDetailsDTO
+            );
+            model.addAttribute("pokemon", pokemonPaginationDTO);
+            return "pokemon/details";
+        } catch (NullPointerException e) {
             return "error/error404";
         }
-
-        int count = pokemonService.countPokemons();
-        PokemonDetailsDTO pokemonDetailsDTO = PokemonDetailsDTO.fromPokemon(
-                pokemonService.findByPokedexId(pokemon.getPokedexId()));
-        PokemonPaginationDTO pokemonPaginationDTO = new PokemonPaginationDTO(
-                count,
-                pokemonDetailsDTO.pokedexId() == 1 ? count : pokemonDetailsDTO.pokedexId() - 1,
-                pokemonDetailsDTO.pokedexId() == count ? 1 : pokemonDetailsDTO.pokedexId() + 1,
-                pokemonDetailsDTO
-        );
-        model.addAttribute("pokemon", pokemonPaginationDTO);
-        return "pokemon/details";
-    } catch (NullPointerException e) {
-        return "error/error404";
     }
-}
 
+    /**
+     * Displays the form for creating a new Pokémon.
+     *
+     * @param model The model to hold attributes for the view.
+     * @return The view name for the Pokémon creation form.
+     */
     @GetMapping("/create")
     public String createPokemon(Model model) {
-
         model.addAttribute("pokemonForm", new PokemonForm());
         model.addAttribute("primaryTypes", PokemonType.values());
         model.addAttribute("secondaryTypes", PokemonType.values());
         return "pokemon/create";
     }
 
+    /**
+     * Handles the creation of a new Pokémon.
+     *
+     * @param pokemonForm The form containing the new Pokémon's data.
+     * @param bindingResult The result of the validation process.
+     * @param model The model to hold attributes for the view.
+     * @return The view name for the created Pokémon's details or the creation form with errors.
+     */
     @PostMapping("/create")
-    public String createArticle(
+    public String createPokemon(
             @Valid @ModelAttribute PokemonForm pokemonForm,
             BindingResult bindingResult,
             Model model
     ) {
-
-        if(bindingResult.hasErrors()) {
-
-            List<String> errors = bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        if (bindingResult.hasErrors()) {
+            // Collect and add validation errors to the model
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
 
             model.addAttribute("errors", errors);
             model.addAttribute("pokemonForm", pokemonForm);
@@ -115,16 +144,9 @@ public String searchPokemons(
             return "pokemon/create";
         }
 
+        // Convert form to Pokémon entity and save it
         Pokemon pokemon = pokemonForm.toPokemon();
-        pokemon.setPokedexId(pokemonForm.getPokedexId());
-        pokemon.setName(pokemonForm.getName());
-        pokemon.setPrimaryType(pokemonForm.getPrimaryType());
-        pokemon.setSecondaryType(pokemonForm.getSecondaryType());
-
         pokemonService.save(pokemon);
-        return "redirect:/details";
-
+        return "redirect:/pokemon/" + pokemon.getPokedexId();
     }
-
-
 }

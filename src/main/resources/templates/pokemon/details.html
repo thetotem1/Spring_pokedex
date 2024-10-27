@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
-  <meta charset="UTF-8">
-  <title>Pokédex Details</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/detailsStyle.css}">
+    <meta charset="UTF-8">
+    <title>Pokédex Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/detailsStyle.css}">
 </head>
 <body>
 <th:block th:insert="~{layout/header}"></th:block>
@@ -11,13 +11,13 @@
 <!-- Conditional Back Button -->
 <a th:if="${pokemon.getPrevious() != null}"
    th:href="@{/pokemon/{id}(id=${pokemon.getPrevious()})}">
-  <button class="back-button">Back</button>
+    <button class="back-button">Back</button>
 </a>
 
 <!-- Conditional Next Button -->
 <a th:if="${pokemon.getNext() != null}"
    th:href="@{/pokemon/{id}(id=${pokemon.getNext()})}">
-  <button class="next-button">Next</button>
+    <button class="next-button">Next</button>
 </a>
 
 <!--<a th:href="@{/pokemon/{id}(id=*{pokemon.getPrevious()} )}">-->
@@ -27,13 +27,13 @@
 <!--<button class="next-button">Next</button>-->
 <!--</a>-->
 <main>
-  <div class="card" th:object="${pokemon}">
-    <h2>Pokédex ID: <span th:text="*{pokemonDetailsDTO.pokedexId()}"></span></h2>
-    <p>Name: <span th:text="*{pokemonDetailsDTO.name()}"></span></p>
-    <p>Type 1: <span th:text="*{pokemonDetailsDTO.primaryType()}"></span></p>
-    <p>Type 2: <span th:text="*{pokemonDetailsDTO.secondaryType()}"></span></p>
-    <p>Description: <span th:text="*{pokemonDetailsDTO.description()}"></span></p>
-  </div>
+    <div class="card" th:object="${pokemon}">
+        <h2>Pokédex ID: <span th:text="*{pokemonDetailsDTO.pokedexId()}"></span></h2>
+        <p>Name: <span th:text="*{pokemonDetailsDTO.name()}"></span></p>
+        <p>Type 1: <span th:text="*{pokemonDetailsDTO.primaryType()}"></span></p>
+        <p>Type 2: <span th:text="*{pokemonDetailsDTO.secondaryType()}"></span></p>
+        <p>Description: <span th:text="*{pokemonDetailsDTO.description()}"></span></p>
+    </div>
 
 
 </main>

@@ -2,40 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title> Pokemon </title>
+    <title>Pokemon</title>
+    <!-- Link to the external CSS stylesheet for styling the page -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
 </head>
 <body>
 
+<!-- Insert the header layout for the page -->
 <th:block th:insert="~{layout/header}"></th:block>
 
 <main>
+    <!-- Create a table to display Pokémon data -->
     <table>
         <thead>
         <tr>
+            <!-- Define table headers for each column -->
             <th>Pokedex Number</th>
-            <th> Name</th>
-            <th> Primary type</th>
-            <th> Secondary type</th>
+            <th>Name</th>
+            <th>Primary Type</th>
+            <th>Secondary Type</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="pokemon: ${pokemons}" th:object="${pokemon}">
+        <!-- Iterate over the list of Pokémon passed from the controller -->
+        <tr th:each="pokemon : ${pokemons}" th:object="${pokemon}">
+            <!-- Display the Pokedex ID of the Pokémon -->
             <td th:text="*{pokedexId()}"></td>
+            <!-- Display the name of the Pokémon -->
             <td th:text="*{name()}"></td>
+            <!-- Display the primary type of the Pokémon -->
             <td th:text="*{primaryType()}"></td>
+            <!-- Display the secondary type of the Pokémon -->
             <td th:text="*{secondaryType()}"></td>
             <td>
+                <!-- Link to the Pokémon details page -->
                 <a th:href="@{/pokemon/{id}(id=*{pokedexId()})}">
+                    <!-- Button to view details of the Pokémon -->
                     <button class="btn-51">Details</button>
                 </a>
             </td>
-            <!--      <td th:text="${pokemon.secondaryType() != null ? pokemon.secondaryType() : 'None'}"></td>-->
+            <!-- Uncomment to display 'None' if secondary type is null -->
+            <!-- <td th:text="${pokemon.secondaryType() != null ? pokemon.secondaryType() : 'None'}"></td> -->
         </tr>
         </tbody>
     </table>
 </main>
 
+<!-- Insert the footer layout for the page -->
 <th:block th:insert="~{layout/footer}"></th:block>
 
 </body>

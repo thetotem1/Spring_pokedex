@@ -1,54 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add pokemon</title>
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <title>Add Pokemon</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
 </head>
 <body>
+<!-- Include the header layout -->
 <th:block th:insert="~{layout/header}"></th:block>
+
 <main>
-    <h2>Create new Pokemon</h2>
+    <h2>Create New Pokemon</h2>
+
+    <!-- Display error messages if they exist -->
+    <div th:if="${errors != null}">
+        <ul>
+            <!-- Loop through each error and display it -->
+            <li th:each="error : ${errors}" th:text="${error}"></li>
+        </ul>
+    </div>
+
+    <!-- Form to add a new Pokemon -->
     <form method="post" th:action="@{/pokemon/create}" th:object="${pokemonForm}">
         <div>
-            <label for="pokedexId">Pokedex ID : </label>
+            <label for="pokedexId">Pokedex ID:</label>
+            <!-- Input for Pokedex ID, bound to the pokemonForm object -->
             <input id="pokedexId" type="number" th:field="*{pokedexId}" required>
         </div>
         <div>
-            <label for="name">Name</label>
-            <input id="name" type="text" step="0.01" th:field="*{name}" required>
+            <label for="name">Name:</label>
+            <!-- Input for Pokemon name, bound to the pokemonForm object -->
+            <input id="name" type="text" th:field="*{name}" required>
         </div>
-
-        div>
-        <label for="description">Description : </label>
-        <input id="description" type="text" th:field="*{description}" required>
-        </div>
-
         <div>
-            <label> Primary type : </label>
-<!--            <input th:each="primaryType : ${primaryTypes}"-->
-<!--                   type="select"-->
-<!--                   th:value="${primaryType}"-->
-<!--                   th:field="*{primaryType}"-->
-<!--                   th:text="${primaryType.name()}">-->
-            <select th:field="${primaryTypes}">
+            <label for="description">Description:</label>
+            <!-- Input for Pokemon description, bound to the pokemonForm object -->
+            <input id="description" type="text" th:field="*{description}" required>
+        </div>
+        <div>
+            <label for="primaryType">Primary Type:</label>
+            <!-- Dropdown for selecting the primary type, bound to the pokemonForm object -->
+            <select id="primaryType" th:field="*{primaryType}" required>
                 <option th:each="primaryType : ${primaryTypes}"
                         th:value="${primaryType}"
-                        th:text="${primaryType.name()}"></option>
+                        th:text="${primaryType.name()}">
+                </option>
             </select>
         </div>
         <div>
-            <label>Secondary type : </label>
-            <input th:each="secondaryType : ${secondaryTypes}"
-                   type="radio"
-                   th:value="${secondaryType}"
-                   th:field="*{secondaryType}"
-                   th:text="${secondaryType.name()}">
+            <label for="secondaryType">Secondary Type:</label>
+            <!-- Dropdown for selecting the secondary type, bound to the pokemonForm object -->
+            <select id="secondaryType" th:field="*{secondaryType}">
+                <option th:each="secondaryType : ${secondaryTypes}"
+                        th:value="${secondaryType}"
+                        th:text="${secondaryType.name()}">
+                </option>
+            </select>
         </div>
-
-        <button>Add</button>
+        <!-- Submit button to add the new Pokemon -->
+        <button type="submit">Add</button>
     </form>
 </main>
+
+<!-- Include the footer layout -->
 <th:block th:insert="~{layout/footer}"></th:block>
 </body>
 </html>
